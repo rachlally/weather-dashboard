@@ -9,6 +9,16 @@ var city = "White Salmon";
 //api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
+//Current Date + Five Calendar Days
+var today = moment();
+$("#current-date").text(today.format("MMM Do, YYYY"));
+$("#day1").text(today.add(1, 'days').format("MMM Do, YYYY"));
+$("#day2").text(today.add(1, 'days').format("MMM Do, YYYY"));
+$("#day3").text(today.add(1, 'days').format("MMM Do, YYYY"));
+$("#day4").text(today.add(1, 'days').format("MMM Do, YYYY"));
+$("#day5").text(today.add(1, 'days').format("MMM Do, YYYY"));
+
+
 fetch(queryURL , {
     cache: 'reload',
 })
