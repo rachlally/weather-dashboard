@@ -41,7 +41,7 @@ function getApi(cityName) {
 }
 
 function fiveDayForecast(cityName) {
-    $('fiveDay').empty('');
+    $('#fiveDay').empty('');
 
     var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + APIKey + "&units=imperial";
 
@@ -53,10 +53,10 @@ function fiveDayForecast(cityName) {
         console.log(data);
         var fiveDayArray = data.list;
         console.log(fiveDayArray);
-        for (var i = 0; i < fiveDayArray.length; i+=8) {
+        for (var i = 8; i < fiveDayArray.length; i+=8) {
            // console.log(data.list[i]);
            var currentForecastIndex = fiveDayArray[i];
-           fiveDayContainer.append(`<div class=>${currentForecastIndex.dt_txt}<p>Temperature: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`)
+           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white">${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}<p>Temperature: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`)
             
         }
 
@@ -69,6 +69,7 @@ searchButton.on('click', function searchCitySubmit(event) {
 
     var currentCity = citySearch.val();
     console.log('City:', citySearch.val());
+    $('#city-search').val('');
     getApi(currentCity);
     fiveDayForecast(currentCity);
           
