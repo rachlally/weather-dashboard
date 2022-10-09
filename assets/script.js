@@ -12,14 +12,8 @@ var listContainer = $('#searchHistory');
 //Current Date + Five Calendar Days
 var today = moment();
 $("#current-date").text(today.format("MMM DD, YYYY"));
-$("#day1").text(today.add(1, 'days').format("MMM Do, YYYY"));
-$("#day2").text(today.add(1, 'days').format("MMM Do, YYYY"));
-$("#day3").text(today.add(1, 'days').format("MMM Do, YYYY"));
-$("#day4").text(today.add(1, 'days').format("MMM Do, YYYY"));
-$("#day5").text(today.add(1, 'days').format("MMM Do, YYYY"));
 
 //API test: successful link
-
 function getApi(cityName) {
     $('#current-weather').empty('');
 
@@ -37,6 +31,7 @@ function getApi(cityName) {
         currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
         
     });
+
 
    
 
@@ -66,22 +61,18 @@ function fiveDayForecast(cityName) {
 
 })}
 
-function saveCity (){
+// function saveCity() {
+//     var savedCity = $("#city-search");
+//     localStorage.setItem("saved city", JSON.stringify(savedCity.val()));
+//     console.log(savedCity);
+// I}
 
-    listContainer.innerHTML = '';
-    var saveCityName = JSON.parse(localStorage.getItem("#city-search")) || [];
-    console.log(saveCityName);
-
-    saveCityName.push();
-
-    localStorage.setItem("#city-search"), JSON.stringify(saveCityName.val());
+function renderSearch() {
+    var lastSearch = JSON.parse(localStorage.getItem("saved city"));
+    if (lastSearch !== null) {
+        document.querySelector("#searchHistory").textContent = lastSearch
+    }
 }
-
-// console.log(saveCity);
-// localStorage.setItem(saveCity, JSON.stringify(saveCity.val()));
-
-
-
 
 //Click Event: Type City, Click Search, Function to console.log API results
 searchButton.on('click', function searchCitySubmit(event) {
@@ -89,8 +80,15 @@ searchButton.on('click', function searchCitySubmit(event) {
 
     var currentCity = citySearch.val();
     console.log('City:', citySearch.val());
+    localStorage.setItem("saved city", JSON.stringify(currentCity));
+
+    var lastSearch = JSON.parse(localStorage.getItem("saved city"));
+        document.getElementById("searchHistory").innerHTML = lastSearch;
+    //renderSearch(currentCity);
+
     $('#city-search').val('');
     getApi(currentCity);
     fiveDayForecast(currentCity);
-    saveCity();    
+    
+    
 });
