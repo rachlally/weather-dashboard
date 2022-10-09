@@ -7,7 +7,7 @@ var formEl = $('city-form');
 var currentWeather = $('#current-weather');
 var fiveDayContainer = $('#fiveDay');
 var listContainer = $('#searchHistory');
-var saveCityInput = citySearch;
+
 
 //Current Date + Five Calendar Days
 var today = moment();
@@ -68,12 +68,13 @@ function fiveDayForecast(cityName) {
 
 function saveCity (){
 
-    //listContainer.innerHTML = '';
-    var saveCityName = JSON.parse(localStorage.getItem("#city-search"));
+    listContainer.innerHTML = '';
+    var saveCityName = JSON.parse(localStorage.getItem("#city-search")) || [];
     console.log(saveCityName);
 
+    saveCityName.push();
 
-    localStorage.setItem("#searchHistory"), JSON.stringify(saveCityName.val());
+    localStorage.setItem("#city-search"), JSON.stringify(saveCityName.val());
 }
 
 // console.log(saveCity);
