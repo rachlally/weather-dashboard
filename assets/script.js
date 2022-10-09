@@ -67,12 +67,12 @@ function fiveDayForecast(cityName) {
 //     console.log(savedCity);
 // I}
 
-function renderSearch() {
-    var lastSearch = JSON.parse(localStorage.getItem("saved city"));
-    if (lastSearch !== null) {
-        document.querySelector("#searchHistory").textContent = lastSearch
-    }
-}
+// function renderSearch() {
+//     var lastSearch = JSON.parse(localStorage.getItem("saved city"));
+//     if (lastSearch !== null) {
+//         document.querySelector("#searchHistory").textContent = lastSearch
+//     }
+// }
 
 //Click Event: Type City, Click Search, Function to console.log API results
 searchButton.on('click', function searchCitySubmit(event) {
@@ -82,8 +82,8 @@ searchButton.on('click', function searchCitySubmit(event) {
     console.log('City:', citySearch.val());
     localStorage.setItem("saved city", JSON.stringify(currentCity));
 
-    var lastSearch = JSON.parse(localStorage.getItem("saved city"));
-        document.getElementById("searchHistory").innerHTML = lastSearch;
+    // var lastSearch = JSON.parse(localStorage.getItem("saved city"));
+    //     document.getElementById("city-search").innerHTML = lastSearch;
     //renderSearch(currentCity);
 
     $('#city-search').val('');
