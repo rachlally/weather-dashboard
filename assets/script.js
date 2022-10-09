@@ -6,6 +6,9 @@ var citySearch = $('#city-search');
 var formEl = $('city-form');
 var currentWeather = $('#current-weather');
 
+var forecast = [1, 2, 3, 4, 5];
+var fiveDayContainer = $('#fiveDay');
+
 //Current Date + Five Calendar Days
 var today = moment();
 $("#current-date").text(today.format("MMM Do, YYYY"));
@@ -47,13 +50,18 @@ function fiveDayForecast(cityName) {
         return response.json();
     })
         .then (function (data) {
-        console.log(data.list[0].main.temp);
-    })
+        console.log(data);
+        var fiveDayArray = data.list;
+        console.log(fiveDayArray);
+        for (var i = 0; i < fiveDayArray.length; i+=8) {
+           // console.log(data.list[i]);
+           var currentForecastIndex = fiveDayArray[i];
+           fiveDayContainer.append(`<div class=>${currentForecastIndex.dt_txt}<p>Temperature: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`)
+            
+        }
 
-       // for (var i = 1; i < 6; i++)
 
-
-}
+})}
 
 //Click Event: Type City, Click Search, Function to console.log API results
 searchButton.on('click', function searchCitySubmit(event) {
