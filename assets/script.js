@@ -18,7 +18,7 @@ $("#day5").text(today.add(1, 'days').format("MMM Do, YYYY"));
 //API test: successful link
 
 function getApi(cityName) {
-    $('input[type="text"]').val('');
+    $('#current-weather').empty('');
 
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey + "&units=imperial";
     
@@ -29,9 +29,9 @@ function getApi(cityName) {
         .then(function (data) {
         console.log(data);
         currentWeather.append(`<h2>${data.name}</h2>`);
-        currentWeather.append(`<span>${data.main.temp}</span>`);
-        currentWeather.append(`<span>${data.wind.speed}</span>`);
-        currentWeather.append(`<span>${data.main.humidity}</span>`);
+        currentWeather.append(`<p>Tempterture: <span>${data.main.temp}</span></p>`);
+        currentWeather.append(`<p>Wind: <span>${data.wind.speed}</span></p>`);
+        currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
         
     });
 }
