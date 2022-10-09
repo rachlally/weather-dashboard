@@ -34,6 +34,25 @@ function getApi(cityName) {
         currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
         
     });
+
+}
+
+function fiveDayForecast(cityName) {
+    $('fiveDay').empty('');
+
+    var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + APIKey + "&units=imperial";
+
+    fetch(fiveDayURL)
+        .then(function(response) {
+        return response.json();
+    })
+        .then (function (data) {
+        console.log(data.list[0].main.temp);
+    })
+
+       // for (var i = 1; i < 6; i++)
+
+
 }
 
 //Click Event: Type City, Click Search, Function to console.log API results
@@ -43,5 +62,6 @@ searchButton.on('click', function searchCitySubmit(event) {
     var currentCity = citySearch.val();
     console.log('City:', citySearch.val());
     getApi(currentCity);
+    fiveDayForecast(currentCity);
           
 });
