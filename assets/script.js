@@ -6,10 +6,10 @@ var citySearch = $('#city-search');
 var formEl = $('city-form');
 var currentWeather = $('#current-weather');
 var fiveDayContainer = $('#fiveDay');
-var listContainer = $('#searchHistory');
-var searchHistory = [''];
+var listContainer = document.querySelector('#searchHistory');
+var searchHistory = [];
 
-//Current Date + Five Calendar Days
+//Current Date
 var today = moment();
 $("#current-date").text(today.format("MMM DD, YYYY"));
 
@@ -31,9 +31,7 @@ function getApi(cityName) {
         currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
         
     });
-
-
-   
+ 
 
 }
 
@@ -61,24 +59,36 @@ function fiveDayForecast(cityName) {
 
 })}
 
-function saveSearchHistory (){
-    $("#searchHistory").val(JSON.parse(localStorage.getItem(searchHistory)))
-};
-saveSearchHistory();
-
-function saveCity() {
-    var savedCity = searchHistory;
-    localStorage.setItem("saved city", JSON.stringify(savedCity));
-    console.log(savedCity);
+function renderSearch (){
+    listContainer.innerHTML="";
+    for (var i = searchHistory.length-1; i >= 0; i--) {
+        var btn = document.createElement("button");
+        btn.setAttribute("type", "button");
+        btn.classList.add("history-btn");
+        btn.setAttribute("data-search", searchHistory[i]);
+        btn.textContent = searchHistory[i];
+        listContainer.append(btn);
+    }
 }
-// saveCity();
 
-// function renderSearch() {
-//     var lastSearch = JSON.parse(localStorage.getItem("saved city"));
-//     if (lastSearch !== null) {
-//         document.querySelector("#searchHistory").textContent = lastSearch
-//     }
-// }
+function setToHistory(search){
+    if (searchHistory.indexOf(search) !== -1){
+        return;
+    }
+    searchHistory.push(search);
+    localStorage.setItem("cities", JSON.stringify(searchHistory));
+    renderSearch();
+
+}
+
+function getHistory(){
+    var history = localStorage.getItem("cities");
+    if (history) {
+        searchHistory = JSON.parse(history);
+    }
+    renderSearch();
+}
+
 
 //Click Event: Type City, Click Search, Function to console.log API results
 searchButton.on('click', function searchCitySubmit(event) {
@@ -86,16 +96,12 @@ searchButton.on('click', function searchCitySubmit(event) {
 
     var currentCity = citySearch.val();
     console.log('City:', citySearch.val());
-    localStorage.setItem("saved city", JSON.stringify(currentCity));
-
-    // var lastSearch = JSON.parse(localStorage.getItem("saved city"));
-    //     document.getElementById("city-search").innerHTML = lastSearch;
-    //renderSearch(currentCity);
-
+   
     $('#city-search').val('');
     getApi(currentCity);
     fiveDayForecast(currentCity);
-    saveCity(currentCity);
-    
-    
+    setToHistory(currentCity);
+        
 });
+
+getHistory();
