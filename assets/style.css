@@ -4,8 +4,26 @@ body {
 }
 
 .header {
-    background-color:rgb(107, 107, 226);
+    background:linear-gradient(rgb(70, 152, 235), teal);
     color: white;
     padding: 5px;
 }
 
+
+.border {
+    margin: 2%;
+    padding: 2%;
+    border-color: teal;
+    
+    
+}
+
+.form-input {
+    width: 100%;
+}
+
+.btn {
+    margin-top: 2%;
+    width: 100%;
+
+}

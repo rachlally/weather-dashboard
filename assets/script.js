@@ -26,7 +26,8 @@ function getApi(cityName) {
         .then(function (data) {
         console.log(data);
         currentWeather.append(`<h2>${data.name}</h2>`);
-        currentWeather.append(`<p>Tempterture: <span>${data.main.temp}</span></p>`);
+        currentWeather.append(`<p>${data.weather[0].description}</p>`);
+        currentWeather.append(`<p>Temp: <span>${data.main.temp}</span></p>`);
         currentWeather.append(`<p>Wind: <span>${data.wind.speed}</span></p>`);
         currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
         
@@ -48,10 +49,10 @@ function fiveDayForecast(cityName) {
         console.log(data);
         var fiveDayArray = data.list;
         console.log(fiveDayArray);
-        for (var i = 1; i < fiveDayArray.length; i+=8) {
+        for (var i = 2; i < fiveDayArray.length; i+=8) {
            // console.log(data.list[i]);
            var currentForecastIndex = fiveDayArray[i];
-           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white"><p>${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}</p><p>Temperature: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`);
+           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white"><p>${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}</p><p>Temp: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`);
             
         }
 
@@ -105,3 +106,10 @@ searchButton.on('click', function searchCitySubmit(event) {
 });
 
 getHistory();
+
+btn.on('click', function savedCitySubmit(event) {
+    event.preventDefault();
+    
+    getApi(searchHistory[this]);
+    fiveDayForecast(searchHistory[this]);
+});
