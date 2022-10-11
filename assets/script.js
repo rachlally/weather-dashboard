@@ -10,11 +10,12 @@ var listContainer = document.querySelector('#searchHistory');
 var searchHistory = [];
 var savedSearchRender = searchHistory;
 
-//Current Date
+//Current Date with momentjs
 var today = moment();
 $("#current-date").text(today.format("MMM DD, YYYY"));
 
 //API test: successful link
+//fetch today's weather for given city and render to page
 function getApi(cityName) {
     $('#current-weather').empty('');
 
@@ -28,15 +29,16 @@ function getApi(cityName) {
         console.log(data);
         currentWeather.append(`<h2>${data.name}</h2>`);
         currentWeather.append(`<p><img src="https://openweathermap.org/img/wn/${(data.weather[0].icon)}.png"></img></p>`);
-        currentWeather.append(`<p>Temp: <span>${data.main.temp}</span></p>`);
-        currentWeather.append(`<p>Wind: <span>${data.wind.speed}</span></p>`);
-        currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
+        currentWeather.append(`<p>Temp: <span>${data.main.temp}°F</span></p>`);
+        currentWeather.append(`<p>Wind: <span>${data.wind.speed}MPH</span></p>`);
+        currentWeather.append(`<p>Humidity: <span>${data.main.humidity}%</span></p>`);
         
     });
  
 
 }
 
+//fetch the five day forecast for given city and render to page
 function fiveDayForecast(cityName) {
     $('#fiveDay').empty('');
 
@@ -50,10 +52,11 @@ function fiveDayForecast(cityName) {
         console.log(data);
         var fiveDayArray = data.list;
         console.log(fiveDayArray);
+        //for loop to go through five day forecast array, select one reading/per day
         for (var i = 2; i < fiveDayArray.length; i+=8) {
-           // console.log(data.list[i]);
+           
            var currentForecastIndex = fiveDayArray[i];
-           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white"><p>${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}</p><p><img src="https://openweathermap.org/img/wn/${(currentForecastIndex.weather[0].icon)}.png"></img></p><p>Temp: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`);
+           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white"><p>${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}</p><p><img src="https://openweathermap.org/img/wn/${(currentForecastIndex.weather[0].icon)}.png"></img></p><p>Temp: <span>${currentForecastIndex.main.temp}°F</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}MPH</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}%</span></p></div>`);
             
         }
 
@@ -61,6 +64,8 @@ function fiveDayForecast(cityName) {
 
 })}
 
+
+//render recent search to page with clickable button
 function renderSearch (){
     listContainer.innerHTML="";
     for (var i = searchHistory.length-1; i >= 0; i--) {
@@ -75,7 +80,7 @@ function renderSearch (){
    
 }
 
-
+//save city searches to local storage
 function setToHistory(search){
     if (searchHistory.indexOf(search) !== -1){
         return;
@@ -86,6 +91,7 @@ function setToHistory(search){
 
 }
 
+//collect city searches from local storage and render to recent search section
 function getHistory(){
     var history = localStorage.getItem("cities");
     if (history) {
@@ -95,7 +101,7 @@ function getHistory(){
 }
 
 
-//Click Event: Type City, Click Search, Function to console.log API results
+//Click Event: Type City, Click Search, Function to log API search results
 searchButton.on('click', function searchCitySubmit(event) {
     event.preventDefault();
 
@@ -109,4 +115,5 @@ searchButton.on('click', function searchCitySubmit(event) {
         
 });
 
+//call function to save search history
 getHistory();
