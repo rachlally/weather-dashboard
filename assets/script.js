@@ -8,6 +8,7 @@ var currentWeather = $('#current-weather');
 var fiveDayContainer = $('#fiveDay');
 var listContainer = document.querySelector('#searchHistory');
 var searchHistory = [];
+var savedSearchRender = searchHistory;
 
 //Current Date
 var today = moment();
@@ -26,7 +27,7 @@ function getApi(cityName) {
         .then(function (data) {
         console.log(data);
         currentWeather.append(`<h2>${data.name}</h2>`);
-        currentWeather.append(`<p>${data.weather[0].description}</p>`);
+        currentWeather.append(`<p><img src="https://openweathermap.org/img/wn/${(data.weather[0].icon)}.png"></img></p>`);
         currentWeather.append(`<p>Temp: <span>${data.main.temp}</span></p>`);
         currentWeather.append(`<p>Wind: <span>${data.wind.speed}</span></p>`);
         currentWeather.append(`<p>Humidity: <span>${data.main.humidity}</span></p>`);
@@ -52,7 +53,7 @@ function fiveDayForecast(cityName) {
         for (var i = 2; i < fiveDayArray.length; i+=8) {
            // console.log(data.list[i]);
            var currentForecastIndex = fiveDayArray[i];
-           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white"><p>${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}</p><p>Temp: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`);
+           fiveDayContainer.append(`<div class="col-2 border border-secondary m-1 bg-dark text-white"><p>${moment(currentForecastIndex.dt_txt).format('MMM DD, YYYY')}</p><p><img src="https://openweathermap.org/img/wn/${(currentForecastIndex.weather[0].icon)}.png"></img></p><p>Temp: <span>${currentForecastIndex.main.temp}</span></p><p>Wind: <span>${currentForecastIndex.wind.speed}</span></p><p>Humidity: <span>${currentForecastIndex.main.humidity}</span></p></div>`);
             
         }
 
@@ -70,7 +71,10 @@ function renderSearch (){
         btn.textContent = searchHistory[i];
         listContainer.append(btn);
     }
+
+   
 }
+
 
 function setToHistory(search){
     if (searchHistory.indexOf(search) !== -1){
@@ -106,10 +110,3 @@ searchButton.on('click', function searchCitySubmit(event) {
 });
 
 getHistory();
-
-btn.on('click', function savedCitySubmit(event) {
-    event.preventDefault();
-    
-    getApi(searchHistory[this]);
-    fiveDayForecast(searchHistory[this]);
-});
