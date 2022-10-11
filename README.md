@@ -22,7 +22,7 @@ To use, simply type a city of interest into the search bar and click "Search".  
 
 The user will also notice their most recent searches will save under the search bar for an easy click to render results again.
 
-![Weather-Dashboard](./assets/Weather%20Dashboard.png)
+![Weather-Dashboard](./assets/Weather%20Dashboard%20Update.png)
 
 ## Credits
 
