@@ -6,7 +6,7 @@ var citySearch = $('#city-search');
 var formEl = $('city-form');
 var currentWeather = $('#current-weather');
 var fiveDayContainer = $('#fiveDay');
-var listContainer = document.querySelector('#searchHistory');
+var listContainer = $('#searchHistory');
 var searchHistory = [];
 var savedSearchRender = searchHistory;
 
@@ -67,7 +67,8 @@ function fiveDayForecast(cityName) {
 
 //render recent search to page with clickable button
 function renderSearch (){
-    listContainer.innerHTML="";
+    console.log(searchHistory)
+    listContainer.empty();
     for (var i = searchHistory.length-1; i >= 0; i--) {
         var btn = document.createElement("button");
         btn.setAttribute("type", "button");
@@ -100,20 +101,36 @@ function getHistory(){
     renderSearch();
 }
 
+function searchCitySubmit(currentCity) {
 
-//Click Event: Type City, Click Search, Function to log API search results
-searchButton.on('click', function searchCitySubmit(event) {
-    event.preventDefault();
-
-    var currentCity = citySearch.val();
-    console.log('City:', citySearch.val());
-   
+    
     $('#city-search').val('');
+    console.log(currentCity)
     getApi(currentCity);
     fiveDayForecast(currentCity);
     setToHistory(currentCity);
-        
+    
+}
+
+
+//Click Event: Type City, Click Search, Function to log API search results
+searchButton.on('click', function(event) {
+    event.preventDefault()
+    var currentCity = citySearch.val();
+    console.log('City:', citySearch.val());
+    searchCitySubmit(currentCity)
 });
+
+listContainer.on('click', function(event){
+    var target = event.target;
+    console.log(target);
+    var savedCity = target.innerHTML;
+    console.log(savedCity);
+    searchCitySubmit(savedCity)
+})
+
+
 
 //call function to save search history
 getHistory();
+
