@@ -27,3 +27,10 @@ body {
     width: 100%;
 
 }
+
+.history-btn {
+    width: 100%;
+    margin: 1%;
+    background: teal;
+    color: white
+}
