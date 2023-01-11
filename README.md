@@ -14,6 +14,10 @@ The biggest lesson I am walking away with is an appreciation for APIs and all th
 
 No installation required.  I recommend users save this URL to their bookmarks for quick access.
 
+## Technology
+
+This application was designed with Bootstrap CSS Framework, Google Font API, and Momentjs.  Weather data gathered from the OpenWeather API.  Built with HTML, CSS, and JQuery.
+
 ## Usage
 
 The user can view the site at: https://rachlally.github.io/weather-dashboard/ .
